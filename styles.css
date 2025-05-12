@@ -1,24 +1,111 @@
 /* styles.css - Popup specific styles */
-html {
+/* ===== Layout & Reset ===== */
+html, body {
     box-sizing: border-box;
-    /* background-color: #f4f4f400; /* User added, generally body or a wrapper gets background */
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f4f4;
 }
-
-*, *:before, *:after {
-    box-sizing: inherit;
-}
+*, *:before, *:after { box-sizing: inherit; }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    width: 250px; /* Popup width */
-    height: 195px; /* Fixed height for the popup content area */
-    overflow: hidden; /* Prevents content from expanding the popup */
-    padding: 20px; /* Inner spacing */
-    background-color: #f4f4f4; /* Popup background */
-    border-radius: 8px; /* Rounded corners for the popup */
-    box-shadow: 0 0 5px rgba(0,0,0,0.3); /* Subtle shadow for depth */
-    margin: 0; /* Remove default browser margin */
+    width: 250px;
+    height: 195px;
+    overflow: hidden;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
+
+/* ===== Main View ===== */
+.main-view {}
+
+/* ===== Header ===== */
+.header-section {
+    text-align: center;
+    margin-bottom: 18px;
+}
+.program-title { font-size: 1.3em; font-weight: bold; margin: 0 0 6px 0; color: #222; }
+.program-desc { font-size: 0.98em; color: #666; margin: 0 0 14px 0; line-height: 1.4; }
+.button-row { display: flex; justify-content: center; gap: 10px; }
+
+/* ===== Buttons ===== */
+.icon-btn {
+    background: #fff; border: 1px solid #ccc; border-radius: 4px;
+    padding: 6px 8px; cursor: pointer; display: flex; align-items: center;
+    transition: background 0.15s; color: #24292f;
+}
+.icon-btn:hover { background: #f3f3f3; border-color: #888; }
+.settings-btn {
+    background: #007bff; color: #fff; border: none; border-radius: 4px;
+    padding: 7px 16px; font-size: 1em; cursor: pointer; transition: background 0.15s;
+}
+.settings-btn:hover { background: #0056b3; }
+.save-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 100%;
+    margin-top: 15px;
+}
+.save-button:hover { background-color: #0056b3; }
+
+/* ===== Settings Panel ===== */
+.settings-panel { margin-top: 12px; animation: fadeIn 0.2s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+
+/* ===== Form Elements ===== */
+.form-group { margin-bottom: 10px; }
+label { display: block; color: #555; margin-bottom: 5px; font-size: 0.9em; }
+.interval-row { display: flex; align-items: center; position: relative; }
+input[type="number"] { flex-grow: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; }
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type="number"] { -moz-appearance: textfield; }
+
+/* ===== Dropdown ===== */
+#showDropdown {
+    flex-shrink: 0;
+    padding: 8px 12px;
+    margin-left: 8px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+#showDropdown:hover { background-color: #e0e0e0; }
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1001;
+    max-height: 150px;
+    overflow-y: auto;
+}
+.dropdown-content a {
+    color: black;
+    padding: 10px 12px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+.dropdown-content a:last-child { border-bottom: none; }
+.dropdown-content a:hover { background-color: #f1f1f1; }
+.show { display: block; }
 
 /* Headings */
 h2 {
@@ -30,117 +117,89 @@ h2 {
     text-align: center;
 }
 
-/* Form elements */
-.form-group {
-    margin-bottom: 10px; 
-}
-
-label {
-    display: block;
-    color: #555;
-    margin-bottom: 5px;
-    font-size: 0.9em;
-}
-
-.interval-row {
-    display: flex;
-    align-items: center;
-    position: relative; /* For dropdown positioning */
-}
-
-input[type="number"] {
-    flex-grow: 1; 
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1em;
-}
-
-/* Hide spin buttons on number input for a cleaner look */
-input[type="number"]::-webkit-inner-spin-button, 
-input[type="number"]::-webkit-outer-spin-button { 
-    -webkit-appearance: none;
-    margin: 0;
-}
-input[type="number"] {
-    -moz-appearance: textfield; /* Firefox */
-}
-
-/* Dropdown button ("선택") */
-#showDropdown {
-    flex-shrink: 0; 
-    padding: 8px 12px; 
-    margin-left: 8px; 
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9em;
-    white-space: nowrap; 
-}
-
-#showDropdown:hover {
-    background-color: #e0e0e0;
-}
-
-/* Dropdown menu panel */
-.dropdown-content { 
-    display: none; /* Hidden by default */
-    position: absolute;
-    top: 100%; /* Position below the .interval-row */
-    left: 0;
-    width: 100%; 
-    background-color: white;
-    border: 1px solid #ccc;
-    border-top: none; /* Visually connect with the button row */
-    border-radius: 0 0 4px 4px; /* Rounded bottom corners */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Dropdown shadow */
-    z-index: 1001; /* Ensure it's above other elements */
-    max-height: 150px; /* Limit height and enable scroll */
-    overflow-y: auto;
-}
-
-/* Individual dropdown items */
-.dropdown-content a {
-    color: black;
-    padding: 10px 12px;
-    text-decoration: none;
-    display: block;
-    cursor: pointer;
-    border-bottom: 1px solid #eee; 
-}
-.dropdown-content a:last-child {
-    border-bottom: none; 
-}
-
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
-
-/* Class to show the dropdown */
-.show {
-    display: block;
-}
-
-/* Save button */
-.save-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1em;
-    width: 100%;
-    margin-top: 15px; 
-}
-
-.save-button:hover {
-    background-color: #0056b3;
-}
-
 /* Existing h1 style from original styles.css, kept for now if used elsewhere */
 /* h1 {
   color: #333;
   font-size: 16px;
 } */
+
+/* Header section styles */
+.header-section {
+    text-align: center;
+    margin-bottom: 18px;
+}
+.program-title {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin: 0 0 6px 0;
+    color: #222;
+}
+.program-desc {
+    font-size: 0.98em;
+    color: #666;
+    margin: 0 0 14px 0;
+    line-height: 1.4;
+}
+.button-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 0;
+}
+.icon-btn {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background 0.15s;
+    color: #24292f;
+}
+.icon-btn:hover {
+    background: #f3f3f3;
+    border-color: #888;
+}
+.settings-btn {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 16px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.settings-btn:hover {
+    background: #0056b3;
+}
+
+/* Settings panel (togglable) */
+.settings-panel {
+    margin-top: 12px;
+    animation: fadeIn 0.2s;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: none; }
+}
+
+.header-section.inactive {
+    filter: blur(2px) grayscale(0.2);
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+    transition: filter 0.2s, opacity 0.2s;
+}
+
+/* ===== Countdown Timer ===== */
+.countdown-timer {
+    font-size: 1.2em;
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 8px;
+    font-family: 'Segoe UI Mono', 'Consolas', monospace;
+    letter-spacing: 1px;
+    min-height: 1.5em;
+}
