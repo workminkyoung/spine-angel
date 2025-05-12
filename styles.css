@@ -203,3 +203,45 @@ h2 {
     letter-spacing: 1px;
     min-height: 1.5em;
 }
+
+/* ===== Time Input Row (HH:MM:SS) ===== */
+.time-input-row {
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    gap: 8px; /* 요소 간 간격 */
+}
+
+.time-input-row input[type="number"] {
+    width: 50px; /* 각 숫자 필드의 너비 */
+    padding: 8px;
+    text-align: center; /* 숫자 중앙 정렬 */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+/* 숫자 입력 필드의 스피너 숨기기 (선택 사항이지만 깔끔하게) */
+.time-input-row input[type="number"]::-webkit-inner-spin-button,
+.time-input-row input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.time-input-row input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.time-input-row span {
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* 기존 .interval-row 관련 스타일은 필요 없어졌으므로, 관련된 스타일(.interval-row, #showDropdown, .dropdown-content 등)은 제거하거나 주석 처리해도 됩니다. */
+/* 예를 들어, 아래 스타일은 이제 사용되지 않습니다. */
+/*
+.interval-row { ... }
+input[type="number"] { ... } // time-input-row input[type="number"]로 대체됨
+#showDropdown { ... }
+.dropdown-content { ... }
+.dropdown-content a { ... }
+.show { ... }
+*/
