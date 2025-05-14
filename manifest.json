@@ -1,10 +1,9 @@
 {
   "manifest_version": 3,
   "name": "Spine Angel",
-  "version": "1.1",
+  "version": "1.2",
   "description": "protect your spine",
   "permissions": [
-    "activeTab",
     "storage",
     "notifications",
     "alarms"

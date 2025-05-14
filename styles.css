@@ -67,7 +67,7 @@ body {
 
 /* ===== Form Elements ===== */
 .form-group {
-    margin-bottom: 10px;
+    margin-bottom: 36px;
 }
 label {
     display: block;
@@ -288,4 +288,14 @@ input[type="number"] { ... } // time-input-row input[type="number"]로 대체됨
 }
 #intervalErrorMsg {
     font-size: 10px;
+}
+
+.dev-toggle-row {
+    text-align: center;
+    margin-top: 8px;
+}
+.dev-toggle-row label {
+    font-size: 12px;
+    cursor: pointer;
+    color: #555;
 }

@@ -19,6 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const $saveBtn = document.getElementById('saveInterval'); // 저장 버튼
     const $intervalForm = document.getElementById('intervalForm'); // 폼 전체
     const $countdownTimer = document.getElementById('countdownTimer'); // Countdown timer UI element
+    const $devModeToggle = document.getElementById('devModeToggle');
+
+    let devMode = false;
+    if ($devModeToggle) {
+        $devModeToggle.addEventListener('change', (e) => {
+            devMode = e.target.checked;
+        });
+    }
 
     // === UI 토글 함수 ===
     // 설정 패널만 보이게
@@ -99,7 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const totalMinutes = hours * 60 + minutes + seconds / 60;
 
-        if (totalMinutes < 1) {
+        // 개발자 모드가 아닐 때만 1분 미만 제한
+        if (!devMode && totalMinutes < 1) {
             chrome.storage.local.set({ 
                 'notificationInterval': DEFAULT_INTERVAL_MINUTES,
                 'lastNotified': Date.now()
