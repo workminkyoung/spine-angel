@@ -30,9 +30,9 @@
     </div>
     <!-- 알림 간격 설정 패널 (초기에는 숨김) -->
     <div id="settingsPanel" class="settings-panel" style="display:none;">
-        <h2>알림 간격 설정</h2>
+    <h2>알림 간격 설정</h2>
         <form id="intervalForm">
-            <div class="form-group">
+    <div class="form-group">
                 <label for="intervalHours">알림 간격</label>
                 <div class="time-input-row">
                     <input type="number" id="intervalHours" min="0" max="23" value="0">
@@ -43,9 +43,11 @@
                     <span>초</span>
                 </div>
             </div>
+            <div id="intervalErrorMsg" style="display:none; color:#d32f2f; font-size:0.98em; margin:8px 0 0 0; text-align:center;"></div>
             <button type="submit" id="saveInterval" class="save-button">저장</button>
         </form>
     </div>
+    <div id="webToast"></div>
     <script src="popup.js" defer></script>
 </body>
 </html>

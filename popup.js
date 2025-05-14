@@ -64,6 +64,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    function showWebToast(msg) {
+        const toast = document.getElementById('webToast');
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        clearTimeout(toast._hideTimer);
+        toast._hideTimer = setTimeout(() => {
+            toast.style.display = 'none';
+        }, 5000);
+    }
+
+    function showIntervalErrorMsg(msg) {
+        const errDiv = document.getElementById('intervalErrorMsg');
+        if (!errDiv) return;
+        errDiv.textContent = msg;
+        errDiv.style.display = 'block';
+        clearTimeout(errDiv._hideTimer);
+        errDiv._hideTimer = setTimeout(() => {
+            errDiv.style.display = 'none';
+        }, 5000);
+    }
+
     function saveInterval(e) {
         e.preventDefault();
         const hours = parseInt($intervalHours.value) || 0;
@@ -77,8 +99,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const totalMinutes = hours * 60 + minutes + seconds / 60;
 
-        if (totalMinutes <= 0) {
-            alert('알림 간격은 0보다 커야 합니다.');
+        if (totalMinutes < 1) {
+            chrome.storage.local.set({ 
+                'notificationInterval': DEFAULT_INTERVAL_MINUTES,
+                'lastNotified': Date.now()
+            }, () => {
+                showIntervalErrorMsg('알림 간격은 1분 미만으로 설정할 수 없습니다.');
+            });
             return;
         }
 
@@ -118,8 +145,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const totalMinutes = hours * 60 + minutes + seconds / 60;
 
-            if (totalMinutes <= 0) {
-                alert('알림 간격은 0보다 커야 합니다.');
+            if (totalMinutes < 1) {
+                chrome.storage.local.set({ 
+                    'notificationInterval': DEFAULT_INTERVAL_MINUTES,
+                    'lastNotified': Date.now()
+                }, () => {
+                    showIntervalErrorMsg('알림 간격은 1분 미만으로 설정할 수 없습니다.');
+                });
                 return;
             }
 
