@@ -1,10 +1,8 @@
 // popup.js
 // 팝업의 주요 UI/UX 기능을 구조화하여 관리합니다.
 
-console.log("Popup script loaded!");
-
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Popup script initialized.");
+    console.log("Popup script initialized (DOMContentLoaded, 알림용 버전).");
 
     // === DOM 셀렉터 상수 ===
     const $mainView = document.getElementById('mainView'); // 메인 소개 화면 wrapper
@@ -20,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const $intervalForm = document.getElementById('intervalForm'); // 폼 전체
     const $countdownTimer = document.getElementById('countdownTimer'); // Countdown timer UI element
     const $devModeToggle = document.getElementById('devModeToggle');
+    // const $firebaseMessageDiv = document.getElementById('firebaseMessage'); // 더 이상 사용하지 않음
 
     let devMode = false;
     if ($devModeToggle) {
@@ -40,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if ($header) $header.style.display = 'block';
         if ($settingsPanel) $settingsPanel.style.display = 'none';
         startCountdownTimer(); // 메인뷰로 돌아오면 타이머 다시 시작
+        // fetchFirebaseMessage(); // 팁 메시지 더 이상 불필요
     }
 
     // === 이벤트 바인딩 ===
@@ -232,5 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadInterval(); // 설정 패널 내 시간/분/초 필드 값 로드
     if ($mainView && (!$settingsPanel || $settingsPanel.style.display === 'none')) {
         startCountdownTimer(); // 초기 뷰가 메인 뷰일 때 카운트다운 시작
+        // fetchFirebaseMessage(); // 팁 메시지 더 이상 불필요
     }
 }); 

@@ -1,27 +1,30 @@
 {
-  "manifest_version": 3,
-  "name": "Spine Angel",
-  "version": "1.2",
-  "description": "protect your spine",
-  "permissions": [
-    "storage",
-    "notifications",
-    "alarms"
-  ],
-  "action": {
-    "default_popup": "popup.html",
-    "default_icon": {
+    "manifest_version": 3,
+    "name": "Spine Angel",
+    "version": "1.2",
+    "description": "protect your spine",
+    "permissions": [
+      "storage",
+      "notifications",
+      "alarms"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "images/icon16.png",
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+      }
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "icons": {
       "16": "images/icon16.png",
       "48": "images/icon48.png",
       "128": "images/icon128.png"
+    },
+    "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'; connect-src https://spine-angel-default-rtdb.firebaseio.com;"
     }
-  },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "icons": {
-    "16": "images/icon16.png",
-    "48": "images/icon48.png",
-    "128": "images/icon128.png"
-  }
-} 
+  } 

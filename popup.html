@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>당신의 척추요정</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script> -->
+    <!-- Add SDKs for Firebase products that you want to use, e.g., Realtime Database -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script> -->
+    <!-- <script type="importmap">
+      {
+        "imports": {
+          "firebase/app": "./libs/firebase-app.js",
+          "firebase/database": "./libs/firebase-database.js"
+        }
+      }
+    </script> -->
 </head>
 <body>
     <!-- 메인 소개 화면 -->
@@ -55,6 +67,7 @@
         </form>
     </div>
     <div id="webToast"></div>
-    <script src="popup.js" defer></script>
+    <!-- <script src="popup.js" defer></script> -->
+    <script type="module" src="popup.js" defer></script>
 </body>
 </html>
