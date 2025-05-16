@@ -1,0 +1,21 @@
+# node modules
+node_modules/
+
+# git 자체 폴더 (보통 자동 무시됨)
+.git/
+
+# OS/에디터 임시파일
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# 로그파일
+*.log
+
+# 환경설정/비밀키(있을 경우)
+.env
+.env.*
+
+# 기타 불필요한 파일
+*.local 
