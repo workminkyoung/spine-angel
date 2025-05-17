@@ -64,18 +64,38 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   }
 });
 
-// 확장 설치/리로드 또는 브라우저 시작 시 알람 예약
+function showWindowsNotificationGuide() {
+  chrome.notifications.create('windows-notification-guide', {
+    type: 'basic',
+    iconUrl: NOTIFY_IMAGE,
+    title: 'Windows 알림 설정 확인',
+    message: '알림이 표시되지 않으면\nWindows 설정 > 시스템 > 알림에서\nChrome 알림을 켜주세요.',
+    priority: 2,
+    buttons: [
+      { title: '설정 열기' }
+    ]
+  });
+}
+
+chrome.notifications.onButtonClicked.addListener((notifId, buttonIndex) => {
+  if (notifId === 'windows-notification-guide' && buttonIndex === 0) {
+    chrome.tabs.create({ url: 'ms-settings:notifications' });
+  }
+  chrome.notifications.clear(notifId);
+});
+
+// 확장 설치/업데이트/브라우저 시작 시 안내 팝업 표시
 chrome.runtime.onInstalled.addListener(() => {
+  showWindowsNotificationGuide();
   console.log('확장 프로그램 설치됨/업데이트됨. 알람 예약 시도.');
-  showPostureNotification(); // 설치 직후 1회 알림 (선택 사항)
+  // showPostureNotification(); // 설치 직후 1회 알림 제거
   scheduleAlarm();
 });
 
-// 서비스 워커 시작 시 (브라우저 시작 포함) 알람 예약
-// onInstalled가 브라우저 업데이트 시에도 발생하므로, onStartup은 중복될 수 있지만 명시적으로 추가
 chrome.runtime.onStartup.addListener(() => {
-    console.log("브라우저 시작됨. 알람 예약 시도.");
-    scheduleAlarm();
+  showWindowsNotificationGuide();
+  console.log('브라우저 시작됨. 알람 예약 시도.');
+  scheduleAlarm();
 });
 
 // popup.js로부터 알람 재설정 메시지 수신
