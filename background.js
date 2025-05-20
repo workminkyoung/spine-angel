@@ -79,12 +79,12 @@ function showWindowsNotificationGuide() {
 
 chrome.notifications.onButtonClicked.addListener((notifId, buttonIndex) => {
   if (notifId === 'windows-notification-guide' && buttonIndex === 0) {
-    chrome.tabs.create({ url: 'ms-settings:notifications' });
+    chrome.tabs.create({ url: chrome.runtime.getURL('guide.html') });
   }
   chrome.notifications.clear(notifId);
 });
 
-// 확장 설치/업데이트/브라우저 시작 시 안내 팝업 표시
+// 확장 설치/업데이트 시 안내 팝업 표시
 chrome.runtime.onInstalled.addListener(() => {
   showWindowsNotificationGuide();
   console.log('확장 프로그램 설치됨/업데이트됨. 알람 예약 시도.');
@@ -93,7 +93,8 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.runtime.onStartup.addListener(() => {
-  showWindowsNotificationGuide();
+  // 브라우저 시작 시에는 더 이상 Windows 알림 가이드를 표시하지 않음
+  // showWindowsNotificationGuide(); 
   console.log('브라우저 시작됨. 알람 예약 시도.');
   scheduleAlarm();
 });
