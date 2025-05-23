@@ -1,7 +1,7 @@
 # spine-angel
 
 <div align="center">
-  <img src="tempImg_x2.png" alt="Spine Angel" width="300">
+  <img src="/images/tempImg_x2.png" alt="Spine Angel" width="300">
   
   <p>
     <br>
