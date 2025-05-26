@@ -18,7 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const $intervalForm = document.getElementById('intervalForm'); // 폼 전체
     const $countdownTimer = document.getElementById('countdownTimer'); // Countdown timer UI element
     const $devModeToggle = document.getElementById('devModeToggle');
+    const $homeBtn = document.getElementById('homeBtn'); // 홈 버튼
+    const $homeModal = document.getElementById('homeModal'); // 홈 모달
     const $notificationHelpLink = document.getElementById('notificationHelpLink');
+    const $notificationHelpLinkRow = document.querySelector('.notification-help-link-row'); // 링크 컨테이너
     // const $firebaseMessageDiv = document.getElementById('firebaseMessage'); // 더 이상 사용하지 않음
 
     let devMode = false;
@@ -34,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showSettingsPanel() {
         if ($header) $header.style.display = 'none';
         if ($settingsPanel) $settingsPanel.style.display = 'block';
+        if ($notificationHelpLinkRow) $notificationHelpLinkRow.style.display = 'none'; // 링크 숨기기
         if (countdownInterval) clearInterval(countdownInterval); // 설정창 열면 메인뷰 타이머 중지
         loadDevMode(); // 설정 패널 열 때마다 개발자 모드 상태 반영
     }
@@ -41,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function hideSettingsPanel() {
         if ($header) $header.style.display = 'block';
         if ($settingsPanel) $settingsPanel.style.display = 'none';
+        if ($notificationHelpLinkRow) $notificationHelpLinkRow.style.display = 'block'; // 링크 보이기
         startCountdownTimer(); // 메인뷰로 돌아오면 타이머 다시 시작
         // fetchFirebaseMessage(); // 팁 메시지 더 이상 불필요
     }
@@ -250,6 +255,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($mainView && (!$settingsPanel || $settingsPanel.style.display === 'none')) {
         startCountdownTimer(); // 초기 뷰가 메인 뷰일 때 카운트다운 시작
         // fetchFirebaseMessage(); // 팁 메시지 더 이상 불필요
+    }
+
+    if ($homeBtn && $homeModal) {
+        $homeBtn.addEventListener('click', () => {
+            $homeModal.innerHTML = `
+                <button class="close-modal-btn" title="닫기">&times;</button>
+                <div style="text-align:center;">
+                    <h2>홈 모달</h2>
+                    <p>여기에 원하는 홈 관련 내용을 넣으세요.</p>
+                </div>
+            `;
+            $homeModal.style.display = 'flex';
+            $homeModal.querySelector('.close-modal-btn').onclick = () => {
+                $homeModal.style.display = 'none';
+            };
+        });
     }
 
     if ($notificationHelpLink) {
