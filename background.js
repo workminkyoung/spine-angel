@@ -21,7 +21,7 @@ async function getRandomTip() {
       return tip;
     }
   } catch (e) {
-    // 실패 시 기본 메시지
+    console.error("Failed to fetch random tip:", e); // 오류 로깅 추가
   }
   return '허리를 펴세요!';
 }
@@ -54,7 +54,7 @@ async function scheduleAlarm() {
   await chrome.alarms.clear(ALARM_NAME);
   chrome.alarms.create(ALARM_NAME, { periodInMinutes: intervalMinutes });
   chrome.storage.local.set({ lastNotified: Date.now() });
-  console.log(`알람이 ${intervalMinutes}분 주기로 예약되었으며, lastNotified가 갱신되었습니다.`);
+  // console.log(`알람이 ${intervalMinutes}분 주기로 예약되었으며, lastNotified가 갱신되었습니다.`); // 제거
 }
 
 // 알람 발생 시 알림 띄우기
@@ -87,7 +87,7 @@ chrome.notifications.onButtonClicked.addListener((notifId, buttonIndex) => {
 // 확장 설치/업데이트 시 안내 팝업 표시
 chrome.runtime.onInstalled.addListener(() => {
   showWindowsNotificationGuide();
-  console.log('확장 프로그램 설치됨/업데이트됨. 알람 예약 시도.');
+  // console.log('확장 프로그램 설치됨/업데이트됨. 알람 예약 시도.'); // 제거
   // showPostureNotification(); // 설치 직후 1회 알림 제거
   scheduleAlarm();
 });
@@ -95,14 +95,14 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.runtime.onStartup.addListener(() => {
   // 브라우저 시작 시에는 더 이상 Windows 알림 가이드를 표시하지 않음
   // showWindowsNotificationGuide(); 
-  console.log('브라우저 시작됨. 알람 예약 시도.');
+  // console.log('브라우저 시작됨. 알람 예약 시도.'); // 제거
   scheduleAlarm();
 });
 
 // popup.js로부터 알람 재설정 메시지 수신
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.type === 'rescheduleAlarm') {
-    console.log('알람 재설정 요청 받음');
+    // console.log('알람 재설정 요청 받음'); // 제거
     scheduleAlarm().then(() => {
         sendResponse({ status: 'Alarm rescheduled' });
     }).catch(error => {
@@ -111,7 +111,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     });
     return true; // 비동기 응답을 위해 true 반환
   } else {
-    console.log('기타 메시지 수신 (처리되지 않음):', request);
+    // console.log('기타 메시지 수신 (처리되지 않음):', request); // 제거
     // 필요하다면 여기서 다른 타입의 메시지를 처리하거나, sendResponse({})로 채널을 닫을 수 있습니다.
     // 현재는 정의되지 않은 메시지에 대해 특별한 응답을 하지 않으므로, false 또는 아무것도 반환하지 않아 채널이 닫히도록 합니다.
     // sendResponse를 호출하지 않고 true를 반환하면 채널이 계속 열려있을 수 있으므로 주의해야 합니다.

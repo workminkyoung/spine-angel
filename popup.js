@@ -2,7 +2,7 @@
 // 팝업의 주요 UI/UX 기능을 구조화하여 관리합니다.
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Popup script initialized (DOMContentLoaded, 알림용 버전).");
+    // console.log("Popup script initialized (DOMContentLoaded, 알림용 버전).");
 
     // === DOM 셀렉터 상수 ===
     const $mainView = document.getElementById('mainView'); // 메인 소개 화면 wrapper
@@ -131,16 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
             'lastNotified': Date.now() // 카운트다운 기준을 현재로 설정하여 즉시 초기화
         }, () => {
             if (chrome.runtime.lastError) {
-                alert('Error saving interval: ' + chrome.runtime.lastError.message);
-                return;
+                // console.warn("메시지 전송 실패 (background 서비스워커 비활성 상태일 수 있음)");
             }
-            // 저장 후, background에 메시지를 보내 알람을 재설정하도록 요청
-            chrome.runtime.sendMessage({ type: 'rescheduleAlarm' }, (response) => {
-                if (chrome.runtime.lastError) {
-                    console.warn("메시지 전송 실패 (background 서비스워커 비활성 상태일 수 있음)");
-                }
-                 console.log(response?.status || "메시지 응답 없음");
-            });
+             // console.log(response?.status || "메시지 응답 없음");
             hideSettingsPanel(); // 저장 후 메인 화면으로 돌아가면서 카운트다운 재시작
         });
     }
@@ -177,16 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 'lastNotified': Date.now() // 카운트다운 기준을 현재로 설정하여 즉시 초기화
             }, () => {
                 if (chrome.runtime.lastError) {
-                    alert('Error saving interval: ' + chrome.runtime.lastError.message);
-                    return;
+                    // console.warn("메시지 전송 실패 (background 서비스워커 비활성 상태일 수 있음)");
                 }
-                // 저장 후, background에 메시지를 보내 알람을 재설정하도록 요청
-                chrome.runtime.sendMessage({ type: 'rescheduleAlarm' }, (response) => {
-                    if (chrome.runtime.lastError) {
-                        console.warn("메시지 전송 실패 (background 서비스워커 비활성 상태일 수 있음)");
-                    }
-                     console.log(response?.status || "메시지 응답 없음");
-                });
+                 // console.log(response?.status || "메시지 응답 없음");
                 hideSettingsPanel(); // 저장 후 메인 화면으로 돌아가면서 카운트다운 재시작
             });
         });
