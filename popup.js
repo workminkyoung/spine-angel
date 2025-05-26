@@ -2,7 +2,7 @@
 // 팝업의 주요 UI/UX 기능을 구조화하여 관리합니다.
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Popup script initialized (DOMContentLoaded, 알림용 버전).");
+    // console.log("Popup script initialized (DOMContentLoaded, 알림용 버전).");
 
     // === DOM 셀렉터 상수 ===
     const $mainView = document.getElementById('mainView'); // 메인 소개 화면 wrapper
@@ -18,12 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const $intervalForm = document.getElementById('intervalForm'); // 폼 전체
     const $countdownTimer = document.getElementById('countdownTimer'); // Countdown timer UI element
     const $devModeToggle = document.getElementById('devModeToggle');
+    const $homeBtn = document.getElementById('homeBtn'); // 홈 버튼
+    const $homeModal = document.getElementById('homeModal'); // 홈 모달
+    const $notificationHelpLink = document.getElementById('notificationHelpLink');
+    const $notificationHelpLinkRow = document.querySelector('.notification-help-link-row'); // 링크 컨테이너
     // const $firebaseMessageDiv = document.getElementById('firebaseMessage'); // 더 이상 사용하지 않음
 
     let devMode = false;
     if ($devModeToggle) {
         $devModeToggle.addEventListener('change', (e) => {
             devMode = e.target.checked;
+            saveDevMode(devMode);
         });
     }
 
@@ -32,12 +37,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function showSettingsPanel() {
         if ($header) $header.style.display = 'none';
         if ($settingsPanel) $settingsPanel.style.display = 'block';
+        if ($notificationHelpLinkRow) $notificationHelpLinkRow.style.display = 'none'; // 링크 숨기기
         if (countdownInterval) clearInterval(countdownInterval); // 설정창 열면 메인뷰 타이머 중지
+        loadDevMode(); // 설정 패널 열 때마다 개발자 모드 상태 반영
     }
     // 메인 화면만 보이게
     function hideSettingsPanel() {
         if ($header) $header.style.display = 'block';
         if ($settingsPanel) $settingsPanel.style.display = 'none';
+        if ($notificationHelpLinkRow) $notificationHelpLinkRow.style.display = 'block'; // 링크 보이기
         startCountdownTimer(); // 메인뷰로 돌아오면 타이머 다시 시작
         // fetchFirebaseMessage(); // 팁 메시지 더 이상 불필요
     }
@@ -123,16 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
             'lastNotified': Date.now() // 카운트다운 기준을 현재로 설정하여 즉시 초기화
         }, () => {
             if (chrome.runtime.lastError) {
-                alert('Error saving interval: ' + chrome.runtime.lastError.message);
-                return;
+                // console.warn("메시지 전송 실패 (background 서비스워커 비활성 상태일 수 있음)");
             }
-            // 저장 후, background에 메시지를 보내 알람을 재설정하도록 요청
-            chrome.runtime.sendMessage({ type: 'rescheduleAlarm' }, (response) => {
-                if (chrome.runtime.lastError) {
-                    console.warn("메시지 전송 실패 (background 서비스워커 비활성 상태일 수 있음)");
-                }
-                 console.log(response?.status || "메시지 응답 없음");
-            });
+             // console.log(response?.status || "메시지 응답 없음");
             hideSettingsPanel(); // 저장 후 메인 화면으로 돌아가면서 카운트다운 재시작
         });
     }
@@ -169,16 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 'lastNotified': Date.now() // 카운트다운 기준을 현재로 설정하여 즉시 초기화
             }, () => {
                 if (chrome.runtime.lastError) {
-                    alert('Error saving interval: ' + chrome.runtime.lastError.message);
-                    return;
+                    // console.warn("메시지 전송 실패 (background 서비스워커 비활성 상태일 수 있음)");
                 }
-                // 저장 후, background에 메시지를 보내 알람을 재설정하도록 요청
-                chrome.runtime.sendMessage({ type: 'rescheduleAlarm' }, (response) => {
-                    if (chrome.runtime.lastError) {
-                        console.warn("메시지 전송 실패 (background 서비스워커 비활성 상태일 수 있음)");
-                    }
-                     console.log(response?.status || "메시지 응답 없음");
-                });
+                 // console.log(response?.status || "메시지 응답 없음");
                 hideSettingsPanel(); // 저장 후 메인 화면으로 돌아가면서 카운트다운 재시작
             });
         });
@@ -228,10 +222,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 개발자 모드 상태를 저장/로드
+    function loadDevMode() {
+        chrome.storage.local.get('devMode', (data) => {
+            if ($devModeToggle) {
+                $devModeToggle.checked = !!data.devMode;
+                devMode = !!data.devMode;
+            }
+        });
+    }
+    function saveDevMode(val) {
+        chrome.storage.local.set({ devMode: !!val });
+    }
+
     // --- 초기화 ---    
     loadInterval(); // 설정 패널 내 시간/분/초 필드 값 로드
+    loadDevMode(); // 최초 진입 시에도 개발자 모드 상태 반영
     if ($mainView && (!$settingsPanel || $settingsPanel.style.display === 'none')) {
         startCountdownTimer(); // 초기 뷰가 메인 뷰일 때 카운트다운 시작
         // fetchFirebaseMessage(); // 팁 메시지 더 이상 불필요
+    }
+
+    if ($homeBtn && $homeModal) {
+        $homeBtn.addEventListener('click', () => {
+            $homeModal.innerHTML = `
+                <button class="close-modal-btn" title="닫기">&times;</button>
+                <div style="text-align:center;">
+                    <h2>홈 모달</h2>
+                    <p>여기에 원하는 홈 관련 내용을 넣으세요.</p>
+                </div>
+            `;
+            $homeModal.style.display = 'flex';
+            $homeModal.querySelector('.close-modal-btn').onclick = () => {
+                $homeModal.style.display = 'none';
+            };
+        });
+    }
+
+    if ($notificationHelpLink) {
+        $notificationHelpLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            chrome.tabs.create({ url: chrome.runtime.getURL('guide.html') });
+        });
     }
 }); 

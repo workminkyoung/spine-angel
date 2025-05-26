@@ -299,3 +299,20 @@ input[type="number"] { ... } // time-input-row input[type="number"]로 대체됨
     cursor: pointer;
     color: #555;
 }
+
+.notification-help-link-row {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.notification-help-link {
+    color: #1976d2;
+    text-decoration: underline;
+    font-size: 13px;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+.notification-help-link:hover {
+    color: #0d47a1;
+}

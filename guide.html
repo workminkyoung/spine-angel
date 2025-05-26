@@ -3,38 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows 알림 설정 안내</title>
+    <title>알림 설정 안내</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; line-height: 1.6; text-align: center; }
-        .container { max-width: 600px; margin: 40px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9; }
-        a { color: #007bff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .button-link {
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            max-width: 1000px; /* Increased max-width for two columns */
+            text-align: center;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .intro-image {
+            max-width: 150px; /* 요정 등장 이미지 크기 조절 */
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .intro-paragraph {
+            line-height: 0.5;
+            font-size: 15px;
+        }
+        code {
+            background-color: #e9e9e9;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .columns-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px; /* Space between columns */
+            margin-top: 25px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .column {
+            flex: 1; /* Each column takes equal width */
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+        }
+        .column h2 {
+            font-size: 1.2em;
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .column img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+        }
+        .button-container {
+            margin-top: 25px;
+        }
+        .button {
             display: inline-block;
             padding: 10px 20px;
-            margin-top: 20px;
-            font-size: 16px;
-            color: white;
             background-color: #007bff;
-            border: none;
-            border-radius: 5px;
+            color: white;
             text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-size: 16px;
+            border: none;
             cursor: pointer;
+            margin-top: 15px;
         }
-        .button-link:hover {
+        .button:hover {
             background-color: #0056b3;
+        }
+        .text-link-button {
+            display: inline;
+            padding: 0;
+            background-color: transparent;
+            color: #007bff;
+            text-decoration: underline;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            transition: color 0.2s;
+            margin-top: 10px;
+        }
+        .text-link-button:hover {
+            color: #0056b3;
+            text-decoration: none;
+        }
+        .instagram-icon-link {
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        .instagram-icon-link svg {
+            width: 36px;
+            height: 36px;
+            fill: #333;
+            transition: fill 0.2s;
+        }
+        .instagram-icon-link:hover svg {
+            fill: #E1306C; /* Instagram pink */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Windows 알림 설정</h1>
-        <p>확장 프로그램의 알림이 제대로 표시되려면 Windows 시스템 설정에서 Chrome에 대한 알림이 켜져 있어야 합니다.</p>
-        <p>아래 버튼을 클릭하여 Windows의 '알림 및 작업' 설정 페이지를 직접 열 수 있습니다.</p>
-        <a href="ms-settings:notifications" class="button-link">Windows 알림 설정 열기</a>
-        <p style="margin-top: 30px; font-size: 0.9em; color: #555;">
-            만약 버튼이 작동하지 않는다면, 직접 Windows 설정 > 시스템 > 알림 (또는 알림 및 작업)으로 이동하여 Google Chrome을 찾아 알림을 '켬'으로 설정해 주세요.
-        </p>
+        <h1>🧚‍♀️요정 등장!</h1>
+        <img src="images/tempImg_x1.png" alt="요정등장" class="intro-image">
+        <p class="intro-paragraph">✨..요정님의 척추 알림이 안 뜨시나요?</p>
+        <p class="intro-paragraph">당연하죠..! 요정님은 당신의 허락이 있어야만 등장한답니다...</p>
+        <p class="intro-paragraph">아래 운영체제별 설정을 확인하여 알림을 활성화해주세요...날..만나고싶다면..✨</p>
+
+        <div class="columns-container">
+            <div class="column">
+                <h2>🖥️ Windows 사용자</h2>
+                <p>1. Windows <strong>설정</strong>을 엽니다.</p>
+                <p>2. <strong>시스템</strong>으로 이동합니다.</p>
+                <p>3. <strong>알림</strong> (또는 알림 및 작업)을 선택합니다.</p>
+                <p>4. 앱 알림 목록에서 <strong>Google Chrome</strong>을 찾아 알림을 <strong>켬</strong>으로 설정합니다.</p>
+                <img src="images/screen.png" alt="Windows 알림 설정 예시">
+            </div>
+            <div class="column">
+                <h2>🍏 macOS 사용자</h2>
+                <p>1. 맥에서 시스템 설정</strong> (또는 시스템 환경설정)을 엽니다.</p>
+                <p>2. 사이드바에서 <strong>알림</strong>을 클릭합니다.</p>
+                <p>3. 오른쪽 앱 목록에서 <strong>Google Chrome</strong>을 선택합니다.</p>
+                <p>4. <strong>알림 허용</strong> 스위치를 켭니다.</p>
+                <img src="images/screen_mac.png" alt="macOS 알림 설정 예시">
+            </div>
+        </div>
+
+        <p class="intro-paragraph">위 방법대로 해도 제가 안보인다면...아래 버튼을 눌러 버그리포트를..보내주세요..증말..지송하네용..🐛</p>
+        <p class="intro-paragraph">그것도 귀찮고 그냥 직접 소통하고싶다면...인스타로..DM..보내주세요..🙏</p>
+        <a href="https://github.com/workminkyoung/spine-angel/issues/new?assignees=&labels=bug&template=bug_report.yml" class="button">도와줘요 세스코</a>
+        <a href="https://www.instagram.com/spine.angel?igsh=OGw1eWNtNmpibWtw&utm_source=qr" class="instagram-icon-link" title="인스타그램 방문" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor">
+                <path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2C22,19.4 19.4,22 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8C2,4.6 4.6,2 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4C18.39,20 20,18.39 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" />
+            </svg>
+        </a>
     </div>
 </body>
 </html> 
