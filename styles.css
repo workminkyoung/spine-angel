@@ -299,3 +299,39 @@ input[type="number"] { ... } // time-input-row input[type="number"]로 대체됨
     cursor: pointer;
     color: #555;
 }
+
+/* 홈 모달 스타일 */
+.home-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255,255,255,0.98);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    animation: fadeInModal 0.2s;
+}
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+.home-modal .close-modal-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #888;
+    cursor: pointer;
+    z-index: 1010;
+    transition: color 0.2s;
+}
+.home-modal .close-modal-btn:hover {
+    color: #d32f2f;
+}

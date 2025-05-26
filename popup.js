@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const $intervalForm = document.getElementById('intervalForm'); // 폼 전체
     const $countdownTimer = document.getElementById('countdownTimer'); // Countdown timer UI element
     const $devModeToggle = document.getElementById('devModeToggle');
+    const $homeBtn = document.getElementById('homeBtn'); // 홈 버튼
+    const $homeModal = document.getElementById('homeModal'); // 홈 모달
     // const $firebaseMessageDiv = document.getElementById('firebaseMessage'); // 더 이상 사용하지 않음
 
     let devMode = false;
@@ -225,6 +227,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateCountdownUI(remainMs);
                 }
             }, 1000);
+        });
+    }
+
+    // === 홈 모달 열기/닫기 ===
+    if ($homeBtn && $homeModal) {
+        $homeBtn.addEventListener('click', () => {
+            $homeModal.innerHTML = `
+                <button class="close-modal-btn" title="닫기">&times;</button>
+                <div style="text-align:center;">
+                    <h2>홈 모달</h2>
+                    <p>여기에 원하는 홈 관련 내용을 넣으세요.</p>
+                </div>
+            `;
+            $homeModal.style.display = 'flex';
+            // 닫기 버튼 이벤트
+            $homeModal.querySelector('.close-modal-btn').onclick = () => {
+                $homeModal.style.display = 'none';
+            };
         });
     }
 
