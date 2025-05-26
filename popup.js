@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($devModeToggle) {
         $devModeToggle.addEventListener('change', (e) => {
             devMode = e.target.checked;
+            saveDevMode(devMode);
         });
     }
 
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if ($header) $header.style.display = 'none';
         if ($settingsPanel) $settingsPanel.style.display = 'block';
         if (countdownInterval) clearInterval(countdownInterval); // 설정창 열면 메인뷰 타이머 중지
+        loadDevMode(); // 설정 패널 열 때마다 개발자 모드 상태 반영
     }
     // 메인 화면만 보이게
     function hideSettingsPanel() {
@@ -228,8 +230,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 개발자 모드 상태를 저장/로드
+    function loadDevMode() {
+        chrome.storage.local.get('devMode', (data) => {
+            if ($devModeToggle) {
+                $devModeToggle.checked = !!data.devMode;
+                devMode = !!data.devMode;
+            }
+        });
+    }
+    function saveDevMode(val) {
+        chrome.storage.local.set({ devMode: !!val });
+    }
+
     // --- 초기화 ---    
     loadInterval(); // 설정 패널 내 시간/분/초 필드 값 로드
+    loadDevMode(); // 최초 진입 시에도 개발자 모드 상태 반영
     if ($mainView && (!$settingsPanel || $settingsPanel.style.display === 'none')) {
         startCountdownTimer(); // 초기 뷰가 메인 뷰일 때 카운트다운 시작
         // fetchFirebaseMessage(); // 팁 메시지 더 이상 불필요
