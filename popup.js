@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const $intervalForm = document.getElementById('intervalForm'); // 폼 전체
     const $countdownTimer = document.getElementById('countdownTimer'); // Countdown timer UI element
     const $devModeToggle = document.getElementById('devModeToggle');
+    const $notificationHelpLink = document.getElementById('notificationHelpLink');
     // const $firebaseMessageDiv = document.getElementById('firebaseMessage'); // 더 이상 사용하지 않음
 
     let devMode = false;
@@ -249,5 +250,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if ($mainView && (!$settingsPanel || $settingsPanel.style.display === 'none')) {
         startCountdownTimer(); // 초기 뷰가 메인 뷰일 때 카운트다운 시작
         // fetchFirebaseMessage(); // 팁 메시지 더 이상 불필요
+    }
+
+    if ($notificationHelpLink) {
+        $notificationHelpLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            chrome.tabs.create({ url: chrome.runtime.getURL('guide.html') });
+        });
     }
 }); 
