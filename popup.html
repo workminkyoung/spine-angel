@@ -34,13 +34,6 @@
                     </svg>
                 </button>
             </div>
-            <!-- 개발자용 토글 -->
-            <div class="dev-toggle-row">
-                <label>
-                    <input type="checkbox" id="devModeToggle" style="vertical-align:middle; margin-right:4px;">
-                    개발자 모드 (1분 미만 허용)
-                </label>
-            </div>
         </header>
     </div>
     <!-- 알림 간격 설정 패널 (초기에는 숨김) -->
@@ -61,6 +54,17 @@
             <div id="intervalErrorMsg" style="display:none; color:#d32f2f; font-size:0.98em; margin:8px 0 0 0; text-align:center;"></div>
             <button type="submit" id="saveInterval" class="save-button">저장</button>
         </form>
+    <!-- 개발자용 토글 (설정 패널 하단으로 이동) -->
+    <div class="dev-toggle-row">
+        <label>
+            <input type="checkbox" id="devModeToggle" style="vertical-align:middle; margin-right:4px;">
+            개발자 모드 (1분 미만 허용)
+        </label>
+    </div>
+    </div>
+    <!-- 알림 문제 안내 링크 (메인화면 하단) -->
+    <div class="notification-help-link-row">
+        <a href="#" id="notificationHelpLink" class="notification-help-link">알람이 안뜨시나요?</a>
     </div>
     <div id="webToast"></div>
     <!-- 홈 모달 (초기에는 숨김) -->
