@@ -67,8 +67,24 @@ body {
 
 /* ===== Form Elements ===== */
 .form-group {
-    margin-bottom: 36px;
+    margin-bottom: 20px;
 }
+
+/* 좌우 정렬을 위한 새로운 스타일 */
+.form-row {
+    display: flex;
+    gap: 10px; /* 양쪽 열 사이의 간격 */
+    margin-bottom: 20px; /* 행 전체의 하단 간격 */
+}
+
+.form-group-half {
+    flex: 1; /* 각 열이 가능한 공간을 동일하게 차지하도록 */
+    margin-bottom: 0; /* 개별 form-group의 하단 마진 제거 (form-row에서 관리) */
+}
+/* .form-group-half:first-child { margin-right: 5px; } /* 왼쪽 열 오른쪽 마진 */
+/* .form-group-half:last-child { margin-left: 5px; } /* 오른쪽 열 왼쪽 마진 */
+/* 간격은 gap으로 통일 */
+
 label {
     display: block;
     color: #555;
@@ -85,6 +101,16 @@ input[type="number"] {
 }
 input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 input[type="number"] { -moz-appearance: textfield; }
+
+/* 새로운 시간 입력 필드 스타일 */
+.time-input {
+    width: 100%;
+    padding: 8px; /* 기본 패딩 */
+    border: 1px solid #ccc;
+    border-radius: 4px; /* 기본 테두리 둥글기 */
+    font-size: 16px; /* 기본 폰트 크기 */
+    box-sizing: border-box;
+}
 
 /* ===== Dropdown ===== */
 #showDropdown {
@@ -291,13 +317,35 @@ input[type="number"] { ... } // time-input-row input[type="number"]로 대체됨
 }
 
 .dev-toggle-row {
-    text-align: center;
-    margin-top: 8px;
+    /* text-align: center; /* 이제 settings-footer에서 정렬 관리 */
+    /* margin-top: 8px; /* 이제 settings-footer에서 정렬 관리 */
 }
 .dev-toggle-row label {
     font-size: 12px;
     cursor: pointer;
     color: #555;
+}
+
+/* 설정 패널 하단 (토글 + 저장 버튼) 스타일 */
+.settings-footer {
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: space-between; /* 양쪽 끝으로 분산 */
+    margin-top: 20px; /* 폼과의 간격 */
+}
+
+.settings-footer .dev-toggle-row {
+    flex-grow: 1; /* 남은 공간을 채우도록 */
+    text-align: left; /* 왼쪽 정렬 */
+    margin-top: 0; /* 기존 마진 제거 */
+}
+
+.settings-footer .save-button {
+    width: auto; /* 내용에 맞게 너비 자동 조정 */
+    padding: 7px 12px; /* 패딩 약간 줄임 */
+    font-size: 11px; /* 폰트 크기 줄임 (settings-panel 내부 다른 요소와 유사하게) */
+    margin-top: 0; /* 기존 상단 마진 제거 */
+    margin-left: 10px; /* 토글과의 간격 */
 }
 
 .notification-help-link-row {
@@ -351,4 +399,28 @@ input[type="number"] { ... } // time-input-row input[type="number"]로 대체됨
 }
 .home-modal .close-modal-btn:hover {
     color: #d32f2f;
+}
+
+/* 기존 스타일 유지하며, settings-panel 내부의 form-group 간격도 조정 */
+.settings-panel .form-group {
+    margin-bottom: 15px;
+}
+
+/* 기존 스타일 유지하며, settings-panel 내부의 form-group 간격도 조정 */
+/* .settings-panel .form-group 는 이제 form-row 내부의 form-group-half 에 의해 처리되므로,
+   이 부분은 form-row 에 대한 설정으로 대체되거나, form-group-half 에 직접 적용합니다. */
+.settings-panel .form-row { /* settings-panel 내부의 form-row 간격 조정 */
+    margin-bottom: 15px;
+}
+/* settings-panel 내부의 개별 form-group (form-group-half)는 추가 마진 불필요 */
+.settings-panel .form-group-half {
+    margin-bottom: 0;
+}
+
+/* 설정 패널 내부의 출퇴근 시간 입력 필드 스타일 통일 */
+.settings-panel .time-input {
+    font-size: 11px; /* 숫자 입력 필드와 동일하게 */
+    padding: 6px;    /* 숫자 입력 필드와 동일하게 */
+    border-radius: 3px; /* 숫자 입력 필드와 동일하게 */
+    /* width는 .form-group-half 내부에서 flex:1 로 이미 잘 작동하므로 유지 */
 }

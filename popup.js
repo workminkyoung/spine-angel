@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const $intervalHours = document.getElementById('intervalHours');
     const $intervalMinutes = document.getElementById('intervalMinutes');
     const $intervalSeconds = document.getElementById('intervalSeconds');
+    const $workStartTime = document.getElementById('workStartTime'); // 출근 시간
+    const $workEndTime = document.getElementById('workEndTime'); // 퇴근 시간
     const $saveBtn = document.getElementById('saveInterval'); // 저장 버튼
     const $intervalForm = document.getElementById('intervalForm'); // 폼 전체
     const $countdownTimer = document.getElementById('countdownTimer'); // Countdown timer UI element
@@ -40,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if ($notificationHelpLinkRow) $notificationHelpLinkRow.style.display = 'none'; // 링크 숨기기
         if (countdownInterval) clearInterval(countdownInterval); // 설정창 열면 메인뷰 타이머 중지
         loadDevMode(); // 설정 패널 열 때마다 개발자 모드 상태 반영
+        loadWorkTimes(); // 설정 패널 열 때 출퇴근 시간 로드
     }
     // 메인 화면만 보이게
     function hideSettingsPanel() {
@@ -60,8 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // === 알림 간격 저장 및 로드 ===
+    // === 알림 간격 및 출퇴근 시간 저장 및 로드 ===
     const DEFAULT_INTERVAL_MINUTES = 30; // 기본 알림 간격 (분 단위)
+    const DEFAULT_WORK_START_TIME = "09:00"; // 기본 출근 시간
+    const DEFAULT_WORK_END_TIME = "18:00"; // 기본 퇴근 시간
 
     function loadInterval() {
         chrome.storage.local.get('notificationInterval', (data) => {
@@ -77,6 +82,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if ($intervalHours) $intervalHours.value = hours;
             if ($intervalMinutes) $intervalMinutes.value = minutes;
             if ($intervalSeconds) $intervalSeconds.value = seconds;
+        });
+    }
+
+    function loadWorkTimes() {
+        chrome.storage.local.get(['workStartTime', 'workEndTime'], (data) => {
+            if ($workStartTime) {
+                $workStartTime.value = data?.workStartTime || DEFAULT_WORK_START_TIME;
+            }
+            if ($workEndTime) {
+                $workEndTime.value = data?.workEndTime || DEFAULT_WORK_END_TIME;
+            }
         });
     }
 
@@ -107,9 +123,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const hours = parseInt($intervalHours.value) || 0;
         const minutes = parseInt($intervalMinutes.value) || 0;
         const seconds = parseInt($intervalSeconds.value) || 0;
+        const workStartTime = $workStartTime ? $workStartTime.value : DEFAULT_WORK_START_TIME;
+        const workEndTime = $workEndTime ? $workEndTime.value : DEFAULT_WORK_END_TIME;
 
         if (hours < 0 || minutes < 0 || seconds < 0 || minutes > 59 || seconds > 59) {
             alert('유효한 시간, 분, 초를 입력해주세요.');
+            return;
+        }
+
+        // 출퇴근 시간 유효성 검사 (선택 사항이지만 추가하면 좋음)
+        if (workStartTime && workEndTime && workStartTime >= workEndTime) {
+            showIntervalErrorMsg('출근 시간은 퇴근 시간보다 빨라야 합니다.');
             return;
         }
 
@@ -119,7 +143,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!devMode && totalMinutes < 1) {
             chrome.storage.local.set({ 
                 'notificationInterval': DEFAULT_INTERVAL_MINUTES,
-                'lastNotified': Date.now()
+                'lastNotified': Date.now(),
+                'workStartTime': workStartTime,
+                'workEndTime': workEndTime
             }, () => {
                 showIntervalErrorMsg('알림 간격은 1분 미만으로 설정할 수 없습니다.');
             });
@@ -128,7 +154,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         chrome.storage.local.set({ 
             'notificationInterval': totalMinutes,
-            'lastNotified': Date.now() // 카운트다운 기준을 현재로 설정하여 즉시 초기화
+            'lastNotified': Date.now(), // 카운트다운 기준을 현재로 설정하여 즉시 초기화
+            'workStartTime': workStartTime,
+            'workEndTime': workEndTime
         }, () => {
             if (chrome.runtime.lastError) {
                 // console.warn("메시지 전송 실패 (background 서비스워커 비활성 상태일 수 있음)");
@@ -147,9 +175,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const hours = parseInt($intervalHours.value) || 0;
             const minutes = parseInt($intervalMinutes.value) || 0;
             const seconds = parseInt($intervalSeconds.value) || 0;
+            const workStartTime = $workStartTime ? $workStartTime.value : DEFAULT_WORK_START_TIME;
+            const workEndTime = $workEndTime ? $workEndTime.value : DEFAULT_WORK_END_TIME;
 
             if (hours < 0 || minutes < 0 || seconds < 0 || minutes > 59 || seconds > 59) {
                 alert('유효한 시간, 분, 초를 입력해주세요.');
+                return;
+            }
+
+            // 출퇴근 시간 유효성 검사 (선택 사항이지만 추가하면 좋음)
+            if (workStartTime && workEndTime && workStartTime >= workEndTime) {
+                showIntervalErrorMsg('출근 시간은 퇴근 시간보다 빨라야 합니다.');
                 return;
             }
 
@@ -158,7 +194,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (totalMinutes < 1) {
                 chrome.storage.local.set({ 
                     'notificationInterval': DEFAULT_INTERVAL_MINUTES,
-                    'lastNotified': Date.now()
+                    'lastNotified': Date.now(),
+                    // 'workStartTime': $workStartTime ? $workStartTime.value : DEFAULT_WORK_START_TIME, // Fallback에도 추가
+                    // 'workEndTime': $workEndTime ? $workEndTime.value : DEFAULT_WORK_END_TIME
                 }, () => {
                     showIntervalErrorMsg('알림 간격은 1분 미만으로 설정할 수 없습니다.');
                 });
@@ -167,7 +205,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             chrome.storage.local.set({ 
                 'notificationInterval': totalMinutes,
-                'lastNotified': Date.now() // 카운트다운 기준을 현재로 설정하여 즉시 초기화
+                'lastNotified': Date.now(), // 카운트다운 기준을 현재로 설정하여 즉시 초기화
+                // 'workStartTime': $workStartTime ? $workStartTime.value : DEFAULT_WORK_START_TIME, // Fallback에도 추가
+                // 'workEndTime': $workEndTime ? $workEndTime.value : DEFAULT_WORK_END_TIME
             }, () => {
                 if (chrome.runtime.lastError) {
                     // console.warn("메시지 전송 실패 (background 서비스워커 비활성 상태일 수 있음)");
@@ -253,33 +293,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 초기화 ---    
-    loadInterval(); // 설정 패널 내 시간/분/초 필드 값 로드
-    loadDevMode(); // 최초 진입 시에도 개발자 모드 상태 반영
-    if ($mainView && (!$settingsPanel || $settingsPanel.style.display === 'none')) {
-        startCountdownTimer(); // 초기 뷰가 메인 뷰일 때 카운트다운 시작
-        // fetchFirebaseMessage(); // 팁 메시지 더 이상 불필요
-    }
+    // === 초기화 ===
+    loadInterval(); // 팝업 로드시 저장된 알림 간격 가져오기
+    loadWorkTimes(); // 팝업 로드시 저장된 출퇴근 시간 가져오기
+    loadDevMode(); // 개발자 모드 상태 로드
+    hideSettingsPanel(); // 초기에는 메인 화면을 보여줌
+    startCountdownTimer(); // 팝업이 열릴 때 카운트다운 시작 또는 재개
 
-    if ($homeBtn && $homeModal) {
-        $homeBtn.addEventListener('click', () => {
-            $homeModal.innerHTML = `
-                <button class="close-modal-btn" title="닫기">&times;</button>
-                <div style="text-align:center;">
-                    <h2>홈 모달</h2>
-                    <p>여기에 원하는 홈 관련 내용을 넣으세요.</p>
-                </div>
-            `;
-            $homeModal.style.display = 'flex';
-            $homeModal.querySelector('.close-modal-btn').onclick = () => {
-                $homeModal.style.display = 'none';
-            };
-        });
-    }
-
+    // "알람이 안뜨시나요?" 링크 클릭 시 로컬 guide.html 열기
     if ($notificationHelpLink) {
-        $notificationHelpLink.addEventListener('click', (e) => {
-            e.preventDefault();
+        $notificationHelpLink.addEventListener('click', (event) => {
+            event.preventDefault(); // 기본 동작 방지
             chrome.tabs.create({ url: chrome.runtime.getURL('guide.html') });
         });
     }

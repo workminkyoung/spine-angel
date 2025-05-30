@@ -47,16 +47,28 @@
                     <span>초</span>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group form-group-half">
+                    <label for="workStartTime">출근 시간</label>
+                    <input type="time" id="workStartTime" class="time-input">
+                </div>
+                <div class="form-group form-group-half">
+                    <label for="workEndTime">퇴근 시간</label>
+                    <input type="time" id="workEndTime" class="time-input">
+                </div>
+            </div>
             <div id="intervalErrorMsg" style="display:none; color:#d32f2f; font-size:0.98em; margin:8px 0 0 0; text-align:center;"></div>
-            <button type="submit" id="saveInterval" class="save-button">저장</button>
         </form>
-    <!-- 개발자용 토글 (설정 패널 하단으로 이동) -->
-    <div class="dev-toggle-row">
-        <label>
-            <input type="checkbox" id="devModeToggle" style="vertical-align:middle; margin-right:4px;">
-            개발자 모드 (1분 미만 허용)
-        </label>
-    </div>
+        <!-- 설정 패널 하단 영역: 토글과 작은 저장 버튼 -->
+        <div class="settings-footer">
+            <div class="dev-toggle-row">
+                <label>
+                    <input type="checkbox" id="devModeToggle" style="vertical-align:middle; margin-right:4px;">
+                    개발자 모드 (1분 미만 허용)
+                </label>
+            </div>
+            <button type="submit" form="intervalForm" id="saveInterval" class="save-button">저장</button>
+        </div>
     </div>
     <!-- 알림 문제 안내 링크 (메인화면 하단) -->
     <div class="notification-help-link-row">
