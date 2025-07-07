@@ -28,6 +28,26 @@ async function getRandomTip() {
 
 // 알림 생성 함수 (랜덤 tip 사용)
 async function showPostureNotification() {
+  // 출퇴근 시간대 체크 추가
+  const {
+    workStartTime = "09:00",
+    workEndTime = "18:00"
+  } = await chrome.storage.local.get(["workStartTime", "workEndTime"]);
+
+  // 현재 시각을 HH:MM으로 구함
+  const now = new Date();
+  const nowHM = now.getHours() * 60 + now.getMinutes();
+  const [startH, startM] = workStartTime.split(":").map(Number);
+  const [endH, endM] = workEndTime.split(":").map(Number);
+  const startHM = startH * 60 + startM;
+  const endHM = endH * 60 + endM;
+
+  // 출근~퇴근 시간대가 아니면 알림 X
+  if (!(nowHM >= startHM && nowHM < endHM)) {
+    // console.log("근무시간 외, 알림 미출력");
+    return;
+  }
+
   const tip = await getRandomTip();
   chrome.notifications.create({
     type: 'basic',
