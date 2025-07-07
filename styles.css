@@ -53,13 +53,13 @@ body {
     cursor: pointer;
     font-size: 16px;
     width: 100%;
-    margin-top: 15px;
+    margin-top: 5px;
 }
 .save-button:hover { background-color: #0056b3; }
 
 /* ===== Settings Panel ===== */
 .settings-panel {
-    margin-top: 12px;
+    margin-top: 0px;
     animation: fadeIn 0.2s;
     font-size: 11px;
 }
@@ -67,7 +67,7 @@ body {
 
 /* ===== Form Elements ===== */
 .form-group {
-    margin-bottom: 36px;
+    margin-bottom: 16px;
 }
 label {
     display: block;
@@ -130,7 +130,7 @@ input[type="number"] { -moz-appearance: textfield; }
 h2 {
     color: #333;
     margin-top: 0;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
     font-size: 1.5em;
     font-weight: normal;
     text-align: center;
@@ -197,7 +197,7 @@ h2 {
 
 /* Settings panel (togglable) */
 .settings-panel {
-    margin-top: 12px;
+    margin-top: 0px;
     animation: fadeIn 0.2s;
 }
 @keyframes fadeIn {
@@ -240,6 +240,13 @@ h2 {
     font-size: 16px;
 }
 
+.time-input-row input[type="time"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
 /* 숫자 입력 필드의 스피너 숨기기 (선택 사항이지만 깔끔하게) */
 .time-input-row input[type="number"]::-webkit-inner-spin-button,
 .time-input-row input[type="number"]::-webkit-outer-spin-button {
@@ -274,6 +281,11 @@ input[type="number"] { ... } // time-input-row input[type="number"]로 대체됨
     font-size: 11px;
     padding: 6px;
     width: 35px;
+    border-radius: 3px;
+}
+.settings-panel input[type="time"] {
+    font-size: 11px;
+    padding: 6px;
     border-radius: 3px;
 }
 .settings-panel .save-button,
