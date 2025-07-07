@@ -10,18 +10,41 @@ const NOTIFY_TITLE = '척추요정 알림';
 const NOTIFY_BTN_TEXT = '자세완벽!';
 
 // 랜덤 tip을 받아오는 함수
-async function getRandomTip() {
+async function getRandomTip(isOvertime = false) {
   try {
-    const res = await fetch('https://spine-angel-default-rtdb.firebaseio.com/tip.json');
-    const tipArray = await res.json();
-    if (Array.isArray(tipArray) && tipArray.length > 0) {
-      let tip = tipArray[Math.floor(Math.random() * tipArray.length)];
-      // \n을 실제 줄바꿈으로 변환
+    // 전체 JSON 데이터를 가져오기 위해 .json으로 변경
+    const res = await fetch('https://spine-angel-default-rtdb.firebaseio.com/.json');
+    const data = await res.json();
+    
+    console.log("Firebase 데이터:", data); // 디버깅용
+    console.log("isOvertime:", isOvertime); // 디버깅용
+    console.log("data.overtime 존재:", !!data.overtime); // 디버깅용
+    console.log("data.tip 존재:", !!data.tip); // 디버깅용
+    
+    if (data.overtime) {
+      console.log("overtime 배열 길이:", data.overtime.length);
+      console.log("overtime 배열 내용:", data.overtime);
+    }
+    
+    // 6시 이후 야근 시간대인 경우 overtime 메시지 사용
+    if (isOvertime && data.overtime && Array.isArray(data.overtime) && data.overtime.length > 0) {
+      console.log("overtime 배열 사용"); // 디버깅용
+      let tip = data.overtime[Math.floor(Math.random() * data.overtime.length)];
       tip = tip.replace(/\\n/g, '\n');
+      console.log("선택된 overtime 메시지:", tip);
+      return tip;
+    }
+    
+    // 일반 시간대인 경우 tip 배열 사용
+    if (data.tip && Array.isArray(data.tip) && data.tip.length > 0) {
+      console.log("tip 배열 사용"); // 디버깅용
+      let tip = data.tip[Math.floor(Math.random() * data.tip.length)];
+      tip = tip.replace(/\\n/g, '\n');
+      console.log("선택된 tip 메시지:", tip);
       return tip;
     }
   } catch (e) {
-    console.error("Failed to fetch random tip:", e); // 오류 로깅 추가
+    console.error("Failed to fetch random tip:", e);
   }
   return '허리를 펴세요!';
 }
@@ -48,7 +71,10 @@ async function showPostureNotification() {
     return;
   }
 
-  const tip = await getRandomTip();
+  // 6시(18시) 이후인지 확인
+  const isOvertime = now.getHours() >= 18;
+  
+  const tip = await getRandomTip(isOvertime);
   chrome.notifications.create({
     type: 'basic',
     iconUrl: NOTIFY_IMAGE,
